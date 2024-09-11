@@ -1,11 +1,11 @@
 name: 'Code Review using CRS'
 description: 'Perform a code review on code modified using CRS'
 inputs:
-  crs-api-token:
-    description: 'API token for CRS'
-    required: true
   GITHUB_TOKEN:
     description: 'GITHUB_TOKEN is required for commenting a PR'
+    required: true
+  crs-api-token:
+    description: 'API token for CRS'
     required: true
 runs:
   using: "composite"
@@ -24,6 +24,7 @@ runs:
     - name: Run CRS client
       run: |
         CRS_API_TOKEN=${{ inputs.crs-api-token }} \
+        BASE_BRANCH_NAME=${{ github.base_ref }} \
         CLIENT_TYPE=github-actions \
         OUTPUT_FILE_NAME=crs_response.json \
         GITHUB_ACCOUNT_NAME=${{ github.event.repository.owner.login }} \
