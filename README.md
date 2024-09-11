@@ -27,6 +27,7 @@ jobs:
       - name: Code review
         uses: ai-dream-ua/crs-gh-action@v1
         with:
-          crs-api-token: ${{ secrets.CRS_API_TOKEN }} # contact CRS team to get the token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required for commenting in PR
+          crs-api-token: ${{ secrets.CRS_API_TOKEN }} # contact CRS team to get the token
+          exclude: "**/*.md, **/*-lock.json" # exclude files from review process
 ```
