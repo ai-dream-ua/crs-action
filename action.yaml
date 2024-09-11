@@ -29,7 +29,7 @@ runs:
       run: |
         CRS_API_TOKEN=${{ inputs.crs-api-token }} \
         BASE_BRANCH_NAME=${{ github.base_ref }} \
-        EXCLUDE_PATTERNS=${{ inputs.exclude }} \
+        EXCLUDE_PATTERNS='${{ inputs.exclude }}' \
         CLIENT_TYPE=github-actions \
         OUTPUT_FILE_NAME=crs_response.json \
         GITHUB_ACCOUNT_NAME=${{ github.event.repository.owner.login }} \
