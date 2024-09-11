@@ -1,0 +1,35 @@
+name: 'Code Review using CRS'
+description: 'Perform a code review on code modified using CRS'
+inputs:
+  crs-api-token:
+    description: 'API token for CRS'
+    required: true
+  GITHUB_TOKEN:
+    description: 'GITHUB_TOKEN is required for commenting a PR'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: install CRS client
+      run: |
+        curl -O https://raw.githubusercontent.com/ai-dream-ua/crs-client/master/scripts/crs.sh
+        chmod +x crs.sh
+      shell: bash
+
+    - name: Run CRS client
+      run: |
+        CRS_API_TOKEN=${{ inputs.crs-api-token }} \
+        CLIENT_TYPE=github-actions \
+        OUTPUT_FILE_NAME=crs_response.json \
+        GITHUB_ACCOUNT_NAME=${{ github.event.repository.owner.login }} \
+        GITHUB_REPO_NAME=${{ github.event.repository.name }} \
+        PR_NUMBER=${{ github.event.pull_request.number }} \
+        COMMIT_SHA=${{ github.event.pull_request.head.sha }} \
+        GITHUB_TOKEN=${{ inputs.GITHUB_TOKEN }} \
+        ./crs.sh
+      shell: bash
